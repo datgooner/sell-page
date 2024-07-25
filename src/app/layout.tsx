@@ -13,7 +13,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={frl.className}>
-        <Header />
+        {/* <Header /> */}
         {children}
       </body>
     </html>
