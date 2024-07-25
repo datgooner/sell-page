@@ -3,24 +3,24 @@ import React from "react";
 
 type Props = {
   active?: boolean;
-  onChange?: () => void;
+  onClick?: () => void;
   className?: string;
 };
 
 const Tag = ({
   active,
-  onChange,
+  onClick,
   children,
   className,
 }: React.PropsWithChildren<Props>) => {
   return (
     <button
       className={cn(
-        "text-text text-sm py-2 px-4 border border-transparent transition-all hover:border-[#1D1F21]",
+        "border border-transparent px-4 py-2 text-sm text-text transition-all hover:border-[#1D1F21]",
         className,
-        active && "border border-[#1D1F21]"
+        active && "border border-[#1D1F21]",
       )}
-      onClick={onChange}
+      onClick={onClick}
     >
       {children}
     </button>
