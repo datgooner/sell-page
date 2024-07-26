@@ -8,6 +8,7 @@ import { SwiperClass } from "swiper/react";
 import ProductDetail from "./product-detail";
 import ProductSlide from "./product-slide";
 import { priceTable } from "./utils";
+import { useCartStore } from "@/store/cart-provider";
 
 const sizes = [
   { label: "10 layers 40 pairs", value: "10-40" },
@@ -29,6 +30,8 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("10-40");
   const [selectedColor, setSelectedColor] = useState("Black");
+
+  const onOpenChange = useCartStore((state) => state.onOpenChange);
 
   return (
     <div>
@@ -97,7 +100,6 @@ const ProductPage = () => {
               <input
                 type="number"
                 className="w-[80px] text-center text-[#545454]"
-                defaultValue={1}
                 value={quantity}
                 onChange={(e) => setQuantity(+e.target.value)}
               />
@@ -116,10 +118,22 @@ const ProductPage = () => {
           </div>
 
           <div className="flex gap-4">
-            <Button variant="outline" className="flex-1">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => {
+                onOpenChange(true);
+              }}
+            >
               Add to Cart
             </Button>
-            <Button variant="default" className="flex-1">
+            <Button
+              variant="default"
+              className="flex-1"
+              onClick={() => {
+                onOpenChange(true);
+              }}
+            >
               Buy It Now
             </Button>
           </div>
