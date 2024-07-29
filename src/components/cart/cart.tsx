@@ -8,14 +8,22 @@ import {
   SheetTitle,
 } from "../ui/sheet";
 import CartItem from "./cart-item";
+import { Fragment } from "react";
+import CartQuantity from "./cart-quantity";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Cart = (props: Props) => {
+  const router = useRouter();
   const open = useCartStore((state) => state.open);
   const cart = useCartStore((state) => state.cart);
 
   const onOpenChange = useCartStore((state) => state.onOpenChange);
+  const onCheckoutOpenChange = useCartStore(
+    (state) => state.onCheckoutOpenChange,
+  );
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -24,15 +32,21 @@ const Cart = (props: Props) => {
           <SheetTitle className="text-2xl font-normal">
             Shopping Cart
           </SheetTitle>
-          <Separator />
+          <Separator className="!my-4" />
           <SheetDescription>
             {cart.map((item) => (
-              <CartItem key={item.id} {...item.cartItem} />
+              <Fragment key={item.id}>
+                <CartItem
+                  defaultQuantity={item.quantity}
+                  id={item.id}
+                  {...item.cartItem}
+                />
+              </Fragment>
             ))}
           </SheetDescription>
-          <Separator />
+          <Separator className="!my-4" />
           <SheetDescription>
-            <div className="flex justify-between">
+            <div className="flex justify-between text-lg font-semibold text-[#1d1f21]">
               <div>Total</div>
               <div>
                 $
@@ -41,7 +55,17 @@ const Cart = (props: Props) => {
                 }, 0)}
               </div>
             </div>
-            <div></div>
+          </SheetDescription>
+          <SheetDescription>
+            <Button
+              variant="default"
+              className="w-full"
+              onClick={() => {
+                onCheckoutOpenChange(false);
+              }}
+            >
+              CHECKOUT
+            </Button>
           </SheetDescription>
         </SheetHeader>
       </SheetContent>

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import React from "react";
+import CartQuantity from "./cart-quantity";
+import { useCartStore } from "@/store/cart-provider";
 
 type Props = {
   imageUrl: string;
@@ -7,18 +9,49 @@ type Props = {
   color: string;
   size: string;
   price: number;
+
+  defaultQuantity: number;
+  id: string;
 };
 
-const CartItem = ({ imageUrl, name, color, size, price }: Props) => {
+const CartItem = ({
+  imageUrl,
+  name,
+  color,
+  size,
+  price,
+  id,
+  defaultQuantity,
+}: Props) => {
+  const removeCartItem = useCartStore((state) => state.removeCartItem);
+  const changeCartItemQuantity = useCartStore(
+    (state) => state.changeCartItemQuantity,
+  );
+
   return (
     <div>
       <div className="flex gap-4">
-        <Image width={80} height={80} alt="" src={imageUrl} className="size-20" />
+        <Image
+          width={80}
+          height={80}
+          alt=""
+          src={imageUrl}
+          className="size-20"
+        />
         <div>
           <div className="mb-2 text-[#1D1F21]">{name}</div>
           <div>Color: {color}</div>
           <div className="mb-2">Size: {size}</div>
-          <div className="text-[#545454]">{price}</div>
+          <div className="mb-2 text-[#1d1f21]">${price}</div>
+          <CartQuantity
+            defaultQuantity={defaultQuantity}
+            onQuantityChange={function (quantity: number): void {
+              changeCartItemQuantity(id, quantity);
+            }}
+            onDelete={function (): void {
+              removeCartItem(id);
+            }}
+          />
         </div>
       </div>
     </div>

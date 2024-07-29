@@ -32,7 +32,14 @@ const ProductPage = () => {
   const [selectedColor, setSelectedColor] = useState("Black");
 
   const onOpenChange = useCartStore((state) => state.onOpenChange);
+  const onCheckoutOpenChange = useCartStore(
+    (state) => state.onCheckoutOpenChange,
+  );
+
   const addToCart = useCartStore((state) => state.addToCart);
+  const changeCartItemQuantity = useCartStore(
+    (state) => state.changeCartItemQuantity,
+  );
 
   return (
     <div>
@@ -148,7 +155,9 @@ const ProductPage = () => {
               variant="default"
               className="flex-1"
               onClick={() => {
-                onOpenChange(true);
+                changeCartItemQuantity("1", quantity);
+                onOpenChange(false);
+                onCheckoutOpenChange(true);
               }}
             >
               Buy It Now

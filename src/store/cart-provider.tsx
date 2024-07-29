@@ -2,6 +2,7 @@ import React, { useContext, useRef } from "react";
 import { useStore, type StoreApi } from "zustand";
 import { createCartStore, type CartStore } from "./cart-store";
 import Cart from "@/components/cart/cart";
+import Checkout from "@/components/checkout/checkout";
 
 const CartContext = React.createContext<StoreApi<CartStore> | null>(null);
 
@@ -11,12 +12,14 @@ const CartProvider = ({ children }: React.PropsWithChildren) => {
     storeRef.current = createCartStore({
       open: false,
       cart: [],
+      checkoutOpen: false,
     });
   }
 
   return (
     <CartContext.Provider value={storeRef.current}>
       <Cart />
+      <Checkout />
       {children}
     </CartContext.Provider>
   );
