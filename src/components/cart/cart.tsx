@@ -1,19 +1,20 @@
 import { useCartStore } from "@/store/cart-provider";
-import React from "react";
+import { Separator } from "../ui/separator";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
-import { Separator } from "./ui/separator";
+} from "../ui/sheet";
+import CartItem from "./cart-item";
 
 type Props = {};
 
 const Cart = (props: Props) => {
   const open = useCartStore((state) => state.open);
+  const cart = useCartStore((state) => state.cart);
+
   const onOpenChange = useCartStore((state) => state.onOpenChange);
 
   return (
@@ -25,8 +26,22 @@ const Cart = (props: Props) => {
           </SheetTitle>
           <Separator />
           <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            {cart.map((item) => (
+              <CartItem key={item.id} {...item.cartItem} />
+            ))}
+          </SheetDescription>
+          <Separator />
+          <SheetDescription>
+            <div className="flex justify-between">
+              <div>Total</div>
+              <div>
+                $
+                {cart.reduce((total, cart) => {
+                  return total + cart.cartItem.price * cart.quantity;
+                }, 0)}
+              </div>
+            </div>
+            <div></div>
           </SheetDescription>
         </SheetHeader>
       </SheetContent>

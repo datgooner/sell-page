@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Tag from "@/components/ui/tag";
+import { useCartStore } from "@/store/cart-provider";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useState } from "react";
@@ -8,7 +9,6 @@ import { SwiperClass } from "swiper/react";
 import ProductDetail from "./product-detail";
 import ProductSlide from "./product-slide";
 import { priceTable } from "./utils";
-import { useCartStore } from "@/store/cart-provider";
 
 const sizes = [
   { label: "10 layers 40 pairs", value: "10-40" },
@@ -32,6 +32,7 @@ const ProductPage = () => {
   const [selectedColor, setSelectedColor] = useState("Black");
 
   const onOpenChange = useCartStore((state) => state.onOpenChange);
+  const addToCart = useCartStore((state) => state.addToCart);
 
   return (
     <div>
@@ -122,6 +123,22 @@ const ProductPage = () => {
               variant="outline"
               className="flex-1"
               onClick={() => {
+                addToCart(
+                  "1",
+                  {
+                    imageUrl:
+                      "https://cdn.statics-cdn-amz.com/uploads/98104/cart/resources/20240625/B586B0D2-DF1C-6737-302F-B9A236F96D98.jpeg?x-oss-process=image/resize,m_lfit,w_1248",
+                    name: "🥾Dust-Free Portable Shoe Organizer🎁",
+                    color:
+                      colors.find((item) => item.value === selectedColor)
+                        ?.label || "",
+                    size:
+                      sizes.find((item) => item.value === selectedSize)
+                        ?.label || "",
+                    price: priceTable[selectedSize]?.[selectedColor],
+                  },
+                  quantity,
+                );
                 onOpenChange(true);
               }}
             >
