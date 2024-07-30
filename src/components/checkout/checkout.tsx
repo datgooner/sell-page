@@ -23,6 +23,7 @@ const Checkout = (props: Props) => {
   const cart = useCartStore((state) => state.cart);
 
   const checkOutSuccess = async () => {
+    // TODO: update correct body structure
     const body = {
       payment_info: {
         card_number: val.number,
@@ -44,6 +45,7 @@ const Checkout = (props: Props) => {
         quantity: item.quantity,
       })),
     };
+    // TODO: replace correct url here
     await axios.post("https://abc.com/api", body);
   };
 
