@@ -48,7 +48,7 @@ const CheckoutCard = ({ onSubmit }: Props) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submit)} className="space-y-4">
-        <CardContent className="grid gap-6">
+        <CardContent className="grid gap-2">
           <div className="grid gap-2">
             <FormField
               control={form.control}
@@ -80,7 +80,7 @@ const CheckoutCard = ({ onSubmit }: Props) => {
               )}
             />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
               <FormField
                 name="month"
@@ -149,6 +149,8 @@ const CheckoutCard = ({ onSubmit }: Props) => {
                 )}
               />
             </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-2">
               <FormField
                 control={form.control}

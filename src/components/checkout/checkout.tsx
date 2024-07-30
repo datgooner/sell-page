@@ -1,11 +1,12 @@
 import { useCartStore } from "@/store/cart-provider";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Step, StepItem, Stepper, useStepper } from "../stepper";
 import { Dialog, DialogContent } from "../ui/dialog";
 import CheckoutCard from "./checkout-card";
 import PersonalInfo from "./personal-info";
 import axios from "axios";
 import { toast } from "react-toastify";
+import CartItem from "../cart/cart-item";
 type Props = {};
 
 const steps = [
@@ -55,8 +56,19 @@ const Checkout = (props: Props) => {
         onInteractOutside={(e) => {
           e.preventDefault();
         }}
+        className="max-h-screen overflow-y-auto"
       >
         <div className="pt-4">
+          {cart.map((item) => (
+            <div key={item.id} className="mb-4">
+              <CartItem
+                defaultQuantity={item.quantity}
+                id={item.id}
+                {...item.cartItem}
+                readOnlyQuantityEdit
+              />
+            </div>
+          ))}
           <Stepper initialStep={0} steps={steps}>
             {steps.map((stepProps, index) => {
               return (

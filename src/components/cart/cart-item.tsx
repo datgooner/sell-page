@@ -12,6 +12,7 @@ type Props = {
 
   defaultQuantity: number;
   id: string;
+  readOnlyQuantityEdit?: boolean;
 };
 
 const CartItem = ({
@@ -22,6 +23,7 @@ const CartItem = ({
   price,
   id,
   defaultQuantity,
+  readOnlyQuantityEdit,
 }: Props) => {
   const removeCartItem = useCartStore((state) => state.removeCartItem);
   const changeCartItemQuantity = useCartStore(
@@ -43,15 +45,19 @@ const CartItem = ({
           <div>Color: {color}</div>
           <div className="mb-2">Size: {size}</div>
           <div className="mb-2 text-[#1d1f21]">${price}</div>
-          <CartQuantity
-            defaultQuantity={defaultQuantity}
-            onQuantityChange={function (quantity: number): void {
-              changeCartItemQuantity(id, quantity);
-            }}
-            onDelete={function (): void {
-              removeCartItem(id);
-            }}
-          />
+          {!readOnlyQuantityEdit ? (
+            <CartQuantity
+              defaultQuantity={defaultQuantity}
+              onQuantityChange={function (quantity: number): void {
+                changeCartItemQuantity(id, quantity);
+              }}
+              onDelete={function (): void {
+                removeCartItem(id);
+              }}
+            />
+          ) : (
+            <div>Quantity: {defaultQuantity}</div>
+          )}
         </div>
       </div>
     </div>

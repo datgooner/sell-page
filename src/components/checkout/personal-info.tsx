@@ -39,8 +39,8 @@ const PersonalInfo = ({ onSubmit }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submit)} className="space-y-4">
-        <CardContent>
+      <form onSubmit={form.handleSubmit(submit)}>
+        <CardContent className="space-y-2">
           <FormField
             control={form.control}
             name="first_name"
