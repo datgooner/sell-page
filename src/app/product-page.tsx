@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import Tag from "@/components/ui/tag";
 import { useCartStore } from "@/store/cart-provider";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
+import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SwiperClass } from "swiper/react";
 import ProductDetail from "./product-detail";
 import ProductSlide from "./product-slide";
@@ -27,9 +28,42 @@ const colors = [
 
 const ProductPage = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
+  const [thumbsSwiper2, setThumbsSwiper2] = useState<SwiperClass | null>(null);
+
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("10-40");
   const [selectedColor, setSelectedColor] = useState("Black");
+
+  const [productImage, setProductImage] = useState(
+    "https://cdn.statics-cdn-amz.com/uploads/98104/cart/resources/20240625/B586B0D2-DF1C-6737-302F-B9A236F96D98.jpeg?x-oss-process=image/resize,m_lfit,w_1248",
+  );
+
+  useEffect(() => {
+    switch (selectedColor) {
+      case "Black":
+        thumbsSwiper?.slideTo(0);
+        thumbsSwiper2?.slideTo(0);
+        setProductImage(
+          "https://cdn.statics-cdn-amz.com/uploads/98104/cart/resources/20240625/B586B0D2-DF1C-6737-302F-B9A236F96D98.jpeg?x-oss-process=image/resize,m_lfit,w_1248",
+        );
+        break;
+      case "Green":
+        thumbsSwiper?.slideTo(11);
+        thumbsSwiper2?.slideTo(11);
+        setProductImage(
+          "https://cdn.statics-cdn-amz.com/uploads/98104/cart/resources/20240625/04A9E3EA-7DA4-757D-7378-3DF99999C000.png?x-oss-process=image/resize,m_lfit,w_1248",
+        );
+        break;
+
+      case "White":
+        thumbsSwiper?.slideTo(17);
+        thumbsSwiper2?.slideTo(17);
+        setProductImage(
+          "https://cdn.statics-cdn-amz.com/uploads/98104/cart/resources/20240625/49F9DF23-2268-ADDE-5AEC-223660022CCF.png?x-oss-process=image/resize,m_lfit,w_1008",
+        );
+        break;
+    }
+  }, [selectedColor, thumbsSwiper, thumbsSwiper2]);
 
   const onOpenChange = useCartStore((state) => state.onOpenChange);
   const onCheckoutOpenChange = useCartStore(
@@ -37,21 +71,31 @@ const ProductPage = () => {
   );
 
   const addToCart = useCartStore((state) => state.addToCart);
-  const changeCartItemQuantity = useCartStore(
-    (state) => state.changeCartItemQuantity,
-  );
 
   return (
     <div>
       <div className="mb-8 bg-[#F6F6F6]">
-        <nav className="breadcrumb container py-4 text-sm text-[#999999]">
-          <Link href="/">Home</Link> /{" "}
-          <span>🥾Dust-Free Portable Shoe Organizer🎁</span>
+        <nav className="breadcrumb container flex justify-between py-4 text-sm text-[#999999]">
+          <div>
+            <Link href="/">Home</Link> /{" "}
+            <span>🥾Dust-Free Portable Shoe Organizer🎁</span>
+          </div>
+          <div>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                onOpenChange(true);
+              }}
+              size="icon"
+            >
+              <ShoppingCart color="#1d1f21" />
+            </Button>
+          </div>
         </nav>
       </div>
 
       <div className="container grid grid-cols-1 gap-4 py-4 md:grid-cols-2">
-        <ProductSlide onSwiper={setThumbsSwiper} />
+        <ProductSlide onSwiper={setThumbsSwiper} onSwiper2={setThumbsSwiper2} />
         <div className="space-y-8 px-6">
           <h1 className="mb-4 text-center text-[28px] font-bold">
             🥾Dust-Free Portable Shoe Organizer🎁
@@ -133,8 +177,7 @@ const ProductPage = () => {
                 addToCart(
                   "1",
                   {
-                    imageUrl:
-                      "https://cdn.statics-cdn-amz.com/uploads/98104/cart/resources/20240625/B586B0D2-DF1C-6737-302F-B9A236F96D98.jpeg?x-oss-process=image/resize,m_lfit,w_1248",
+                    imageUrl: productImage,
                     name: "🥾Dust-Free Portable Shoe Organizer🎁",
                     color:
                       colors.find((item) => item.value === selectedColor)
@@ -155,7 +198,21 @@ const ProductPage = () => {
               variant="default"
               className="flex-1"
               onClick={() => {
-                changeCartItemQuantity("1", quantity);
+                addToCart(
+                  "1",
+                  {
+                    imageUrl: productImage,
+                    name: "🥾Dust-Free Portable Shoe Organizer🎁",
+                    color:
+                      colors.find((item) => item.value === selectedColor)
+                        ?.label || "",
+                    size:
+                      sizes.find((item) => item.value === selectedSize)
+                        ?.label || "",
+                    price: priceTable[selectedSize]?.[selectedColor],
+                  },
+                  quantity,
+                );
                 onOpenChange(false);
                 onCheckoutOpenChange(true);
               }}

@@ -60,7 +60,7 @@ const Checkout = (props: Props) => {
       >
         <div className="pt-4">
           {cart.map((item) => (
-            <div key={item.id} className="mb-4">
+            <div key={item.id} className="mb-2">
               <CartItem
                 defaultQuantity={item.quantity}
                 id={item.id}
@@ -69,6 +69,15 @@ const Checkout = (props: Props) => {
               />
             </div>
           ))}
+          <div className="mb-4 flex justify-end gap-4 text-lg font-semibold text-[#D21936]">
+            <div>Total price:</div>
+            <div>
+              $
+              {cart.reduce((total, cart) => {
+                return total + cart.cartItem.price * cart.quantity;
+              }, 0)}
+            </div>
+          </div>
           <Stepper initialStep={0} steps={steps}>
             {steps.map((stepProps, index) => {
               return (

@@ -38,9 +38,11 @@ const slides: string[] = [
 
 type Props = {
   onSwiper?: (swiper: SwiperClass) => void;
+  onSwiper2?: (swiper: SwiperClass) => void;
 };
-const ProductSlide = ({ onSwiper }: Props) => {
+const ProductSlide = ({ onSwiper, onSwiper2 }: Props) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
+
   const slideItems = (
     <>
       {slides.map((item, index) => (
@@ -57,6 +59,7 @@ const ProductSlide = ({ onSwiper }: Props) => {
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
         className="swiper-container mb-4"
+        onSwiper={onSwiper2}
       >
         {slideItems}
       </Swiper>
@@ -68,7 +71,7 @@ const ProductSlide = ({ onSwiper }: Props) => {
         spaceBetween={10}
         slidesPerView="auto"
         freeMode={true}
-        watchSlidesProgress={true}
+        // watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
         navigation={true}

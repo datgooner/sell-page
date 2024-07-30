@@ -56,7 +56,7 @@ export const createCartStore = (initState: CartState = defaultInitState) => {
             const newItem = {
               ...currentItem,
               cartItem,
-              quantity: currentItem.quantity + quantity,
+              quantity,
             };
             set({
               cart: currentCart.map((item, index) => {
