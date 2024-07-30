@@ -1,4 +1,7 @@
 import { useCartStore } from "@/store/cart-provider";
+import { useRouter } from "next/navigation";
+import { Fragment } from "react";
+import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import {
   Sheet,
@@ -8,10 +11,6 @@ import {
   SheetTitle,
 } from "../ui/sheet";
 import CartItem from "./cart-item";
-import { Fragment } from "react";
-import CartQuantity from "./cart-quantity";
-import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -61,7 +60,8 @@ const Cart = (props: Props) => {
               variant="default"
               className="w-full"
               onClick={() => {
-                onCheckoutOpenChange(false);
+                onOpenChange(false);
+                onCheckoutOpenChange(true);
               }}
             >
               CHECKOUT

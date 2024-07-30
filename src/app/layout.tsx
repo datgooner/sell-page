@@ -1,4 +1,6 @@
 import { Frank_Ruhl_Libre } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import Providers from "./providers";
 
@@ -15,6 +17,7 @@ export default function RootLayout({
         <Providers>
           {/* <Header /> */}
           {children}
+          <ToastContainer />
         </Providers>
       </body>
     </html>
